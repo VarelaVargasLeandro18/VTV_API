@@ -3,6 +3,7 @@ import express from "express";
 import login from "./login/login.controller";
 import { AppDataSource } from "./AppDataSource";
 import { randomUUID } from "crypto";
+import { HEADERS } from "./utils/Constants";
 
 const app = express();
 
@@ -14,10 +15,10 @@ if ( !AppDataSource.isInitialized ) {
 
 // # ID de Petición:
 app.use( (req, res, next) => {
-    res.setHeader( "Request-Id", randomUUID() );
+    res.setHeader( HEADERS.HEADER_REQUEST_ID, randomUUID() );
     next()
 } );
-
+ 
 // # Body Parser JSON:
 app.use( express.urlencoded( { extended: false } ) );
 app.use( express.json() );
