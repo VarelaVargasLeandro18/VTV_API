@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import express from "express";
-import login from "./login/login.controller";
+import login from "./controllers/login/login.controller";
 import { AppDataSource } from "./AppDataSource";
 import { randomUUID } from "crypto";
 import { HEADERS } from "./utils/Constants";
