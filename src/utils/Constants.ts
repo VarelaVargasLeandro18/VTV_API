@@ -6,15 +6,23 @@ export const HEADERS = {
 
 export const API_ERRORS : IConstantsOfErrors = {
 
+    ERROR_INTERNO: {
+        codigo: 1000,
+        mensaje: "Error interno al realizar la petición."
+    },
+
     //#region REGISTRO
     USUARIO_YA_REGISTRADO: {
-        codigo: 1000,
+        codigo: 1100,
         mensaje: "Este usuario ya se encuentra registrado."
     },
-    ERROR_AL_REGISTRAR: {
-        codigo: 1001,
-        mensaje: "Error interno al registrar usuario."
-    }
+    //#endregion
+
+    //#region LOGIN
+    USUARIO_NO_ENCONTRADO: {
+        codigo: 1200,
+        mensaje: "El usuario especificado no existe."
+    },
     //#endregion
 
 }
