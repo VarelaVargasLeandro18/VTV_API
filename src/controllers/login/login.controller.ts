@@ -1,50 +1,84 @@
 import express from 'express';
 import HttpStatus from 'http-status-codes';
-import { AppDataSource } from '../../AppDataSource';
-import { API_ERRORS, HEADERS } from '../../utils/Constants';
 import { NormalResponse } from '../../models/NormalResponse';
+import { API_ERRORS, HEADERS } from '../../utils/Constants';
 
-import { userRegisterSchema, Usuario } from '../../models/Usuario';
-import { ErrorValidacion } from '../../models/ErrorValidacion';
+import { ErrorActualizacionBBDD, ErrorConflictoBBDD, ErrorConsultaBBDD, ErrorEntidadNoEncontradaBBDD } from '../../models/Errores';
+import { Inspector, inspectoresSchemaLogIn, inspectoresSchemaRegistro } from '../../models/Inspector';
+import { ResponseErrorValidacion } from '../../models/ResponseErrorValidacion';
+import { login, registrar } from '../../services/logAndRegister.service';
 import { obtenerMensajesJoiValidacion } from '../../utils/mensajesDeValidacion';
-
-const SECRET_TOKEN = process.env.SECRET_TOKEN || "TOPSECRETVITEH";
 
 const router = express.Router();
 
-router.post( '/login', (req, res) => {
-} );
-
-router.post( '/register', async (req, res) => {
+router.post( '/login', async (req, res) => {
     const REQUEST_ID = res.getHeader( HEADERS.HEADER_REQUEST_ID ) as string;
-    const usuario : Usuario = req.body;
+    const inspector : Inspector = req.body;
+    let jwt = "";
 
-    const error = userRegisterSchema.validate( usuario ).error;
+    const joiError = inspectoresSchemaLogIn.validate( inspector ).error;
 
-    if ( error ) {
+    if ( joiError ) {
         return res.status( HttpStatus.BAD_REQUEST ).json(
-            new ErrorValidacion( REQUEST_ID, obtenerMensajesJoiValidacion( error ) )
-        );
-    }
-
-    const usuarioRepository = AppDataSource.getRepository( Usuario );
-    
-    const usuarioEncontrado = await usuarioRepository.findOneBy( {
-        email: usuario.email
-    } );
-
-    if ( usuarioEncontrado ) {
-        return res.status( HttpStatus.CONFLICT ).json(
-            new NormalResponse( REQUEST_ID, [ API_ERRORS.USUARIO_YA_REGISTRADO ] )
+            new ResponseErrorValidacion( REQUEST_ID, obtenerMensajesJoiValidacion( joiError ) )
         );
     }
 
     try {
-        await usuarioRepository.save( usuario );
+        jwt = await login( inspector );
     } catch ( error ) {
-        return res.status( HttpStatus.INTERNAL_SERVER_ERROR ).json(
-            new NormalResponse( REQUEST_ID, [ API_ERRORS.ERROR_AL_REGISTRAR ] )
+        console.error( error );
+
+        if ( error instanceof ErrorConsultaBBDD ) {
+            return res.status( HttpStatus.INTERNAL_SERVER_ERROR ).json(
+                new NormalResponse( REQUEST_ID, [ API_ERRORS.ERROR_INTERNO ] )
+            );
+        }
+
+        if ( error instanceof ErrorEntidadNoEncontradaBBDD ) {
+            return res.status( HttpStatus.NOT_FOUND ).json(
+                new NormalResponse( REQUEST_ID, [ API_ERRORS.USUARIO_NO_ENCONTRADO ] )
+            );
+        }
+
+    }
+
+    return res.status( HttpStatus.OK ).setHeader("auth-token", jwt).json(
+        new NormalResponse( REQUEST_ID, [] )
+    );
+
+} );
+
+router.post( '/register', async (req, res) => {
+    const REQUEST_ID = res.getHeader( HEADERS.HEADER_REQUEST_ID ) as string;
+    const inspector : Inspector = req.body;
+
+    const joiError = inspectoresSchemaRegistro.validate( inspector ).error;
+
+    if ( joiError ) {
+        console.error( joiError )
+        return res.status( HttpStatus.BAD_REQUEST ).json(
+            new ResponseErrorValidacion( REQUEST_ID, obtenerMensajesJoiValidacion( joiError ) )
         );
+    }
+
+    try {
+        await registrar( inspector );
+    } catch ( error ) {
+        console.error( error );
+
+        if ( error instanceof ErrorConflictoBBDD ) {
+            return res.status( HttpStatus.CONFLICT ).json(
+                new NormalResponse( REQUEST_ID, [ API_ERRORS.USUARIO_YA_REGISTRADO ] )
+            );
+        }
+
+        if ( error instanceof ErrorActualizacionBBDD ) {
+            return res.status( HttpStatus.INTERNAL_SERVER_ERROR ).json(
+                new NormalResponse( REQUEST_ID, [ API_ERRORS.ERROR_INTERNO ] )
+            );
+        }
+
     }
 
     return res.status( HttpStatus.CREATED ).json(
