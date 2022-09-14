@@ -2,27 +2,29 @@ import "reflect-metadata";
 import express from "express";
 import login from "./controllers/login/login.controller";
 import { AppDataSource } from "./AppDataSource";
-import { randomUUID } from "crypto";
-import { HEADERS } from "./utils/Constants";
+import { requestIdMW } from "./middlewares/requestId";
 
-const app = express();
-
+//#region Conexión a Base de Datos:
 if ( !AppDataSource.isInitialized ) {
     AppDataSource.initialize()
         .then( value => console.log(value) )
         .catch( error => console.error( error ) );
 }
+//#endregion
 
-// # ID de Petición:
-app.use( (req, res, next) => {
-    res.setHeader( HEADERS.HEADER_REQUEST_ID, randomUUID() );
-    next()
-} );
- 
-// # Body Parser JSON:
-app.use( express.urlencoded( { extended: false } ) );
-app.use( express.json() );
+const app = express();
 
+
+//#region Configuración de Middlewares
+    // # Body Parser JSON:
+    app.use( express.urlencoded( { extended: false } ) );
+    app.use( express.json() );
+
+    // # Request ID Middleware:
+    app.use( requestIdMW );
+//#endregion
+
+//#region Endpoints config
 app.get( '/', (req, res) => {
     res.send('Bienvenido!');
 } );
@@ -32,3 +34,4 @@ app.listen( 8080, () => {
 } );
 
 app.use(login);
+//#endregion
