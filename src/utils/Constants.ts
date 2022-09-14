@@ -1,4 +1,4 @@
-import { IConstantsOfErrors } from "../models/IConstantsOfErrors";
+import { IConstantsOfErrors } from "../models/responses/IConstantsOfErrors";
 
 export const HEADERS = {
     HEADER_REQUEST_ID: "Request-Id",

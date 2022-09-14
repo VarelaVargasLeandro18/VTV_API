@@ -1,6 +1,6 @@
 import Joi from "joi";
 import { Column, Entity, PrimaryColumn } from "typeorm";
-import { campoNoCorrespondeAValores, campoNoPuedeEstarVacio, campoRequerido } from "../utils/mensajesDeValidacion";
+import { campoNoCorrespondeAValores, campoNoPuedeEstarVacio, campoRequerido } from "../../utils/mensajesDeValidacion";
 import { Persona } from "./Persona";
 
 // Según: https://www.argentina.gob.ar/interior/dine/capacitacion/autoridades/documentosvalidosparavotar

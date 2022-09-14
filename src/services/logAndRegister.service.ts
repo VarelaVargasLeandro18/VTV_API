@@ -1,7 +1,10 @@
-import { AppDataSource } from "../AppDataSource";
-import { ErrorActualizacionBBDD, ErrorConflictoBBDD, ErrorConsultaBBDD, ErrorEntidadNoEncontradaBBDD } from "../models/Errores";
-import { Inspector } from "../models/Inspector";
 import jwt from "jsonwebtoken";
+import { AppDataSource } from "../AppDataSource";
+import { Inspector } from "../models/entities/Inspector";
+import { ErrorActualizacionBBDD } from "../models/errores/ErrorActualizacionBBDD";
+import { ErrorConflictoBBDD } from "../models/errores/ErrorConflictoBBDD";
+import { ErrorConsultaBBDD } from "../models/errores/ErrorConsultaBBDD";
+import { ErrorEntidadNoEncontradaBBDD } from "../models/errores/ErrorEntidadNoEncontradaBBDD";
 
 const SECRET_TOKEN = process.env.SECRET_TOKEN || "TOPSECRETVITEH";
 const ALGORITHM_TOKEN : jwt.Algorithm = process.env.ALGORITHM_TOKEN as jwt.Algorithm || "HS256";

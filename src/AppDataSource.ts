@@ -1,14 +1,14 @@
 import { DataSource } from "typeorm";
-import { Auto } from "./models/Auto";
-import { DocumentoIdentificador } from "./models/DocumentoIdentificador";
-import { Estado } from "./models/Estado";
-import { Inspeccion } from "./models/Inspeccion";
-import { Inspector } from "./models/Inspector";
-import { MarcaAuto } from "./models/MarcaAuto";
-import { Medicion } from "./models/Medicion";
-import { ModeloAuto } from "./models/ModeloAuto";
-import { Observacion } from "./models/Observacion";
-import { Propietario } from "./models/Propietario";
+import { Auto } from "./models/entities/Auto";
+import { DocumentoIdentificador } from "./models/entities/DocumentoIdentificador";
+import { Estado } from "./models/entities/Estado";
+import { Inspeccion } from "./models/entities/Inspeccion";
+import { Inspector } from "./models/entities/Inspector";
+import { MarcaAuto } from "./models/entities/MarcaAuto";
+import { Medicion } from "./models/entities/Medicion";
+import { ModeloAuto } from "./models/entities/ModeloAuto";
+import { Observacion } from "./models/entities/Observacion";
+import { Propietario } from "./models/entities/Propietario";
 
 export const AppDataSource = new DataSource({
     type: "mysql",

@@ -1,6 +1,6 @@
 import Joi from "joi";
 import { Column, Entity } from "typeorm";
-import { campoLargoMaximo, campoLargoMinimo, campoNoEsEmail, campoNoPuedeEstarVacio, campoRequerido } from "../utils/mensajesDeValidacion";
+import { campoLargoMaximo, campoLargoMinimo, campoNoEsEmail, campoNoPuedeEstarVacio, campoRequerido } from "../../utils/mensajesDeValidacion";
 import { Persona, PersonaSchema } from "./Persona";
 
 export const inspectoresSchemaRegistro = Joi.object({

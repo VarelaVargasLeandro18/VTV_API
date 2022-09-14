@@ -1,7 +1,7 @@
 import Joi from "joi";
 import { Column, CreateDateColumn, DeleteDateColumn, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
-import { dateJoiCustomValidation } from "../utils/CustomJoiValidations";
-import { campoNoPuedeEstarVacio, campoRequerido } from "../utils/mensajesDeValidacion";
+import { dateJoiCustomValidation } from "../../utils/CustomJoiValidations";
+import { campoNoPuedeEstarVacio, campoRequerido } from "../../utils/mensajesDeValidacion";
 import { DocumentoIdentificador, DocumentoIdentificadorSchema } from "./DocumentoIdentificador";
 
 export const PersonaSchema = Joi.object({
