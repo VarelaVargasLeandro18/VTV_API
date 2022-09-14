@@ -17,7 +17,7 @@ export const inspectoresSchemaRegistro = Joi.object({
     
 }).concat(PersonaSchema).options({ abortEarly: false });
 
-export const userLoginSchema = Joi.object({
+export const inspectoresSchemaLogIn = Joi.object({
 
     email: Joi.string().email().required(),
     contrasenia: Joi.string().required(),
