@@ -1,4 +1,4 @@
-export class ErrorValidacion {
+export class ResponseErrorValidacion {
 
     constructor(
         public requestId : string,
