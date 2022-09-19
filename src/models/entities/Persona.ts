@@ -29,7 +29,7 @@ export abstract class Persona {
     @PrimaryGeneratedColumn("uuid")
     id : string;
 
-    @OneToOne( () => DocumentoIdentificador, (documento) => documento.persona, {
+    @OneToOne( () => DocumentoIdentificador, {
         cascade: true
     } )
     @JoinColumn()
