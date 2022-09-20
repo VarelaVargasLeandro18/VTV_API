@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import express from "express";
-import login from "./controllers/login/login.controller";
+import login from "./controllers/login.controller";
 import { AppDataSource } from "./AppDataSource";
 import { requestIdMW } from "./middlewares/requestId";
 

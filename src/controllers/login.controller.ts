@@ -1,16 +1,16 @@
 import express from 'express';
 import HttpStatus from 'http-status-codes';
-import { NormalResponse } from '../../models/responses/NormalResponse';
-import { API_ERRORS, HEADERS } from '../../utils/Constants';
+import { NormalResponse } from '../models/responses/NormalResponse';
+import { API_ERRORS, HEADERS } from '../utils/Constants';
 
-import { Inspector, inspectoresSchemaLogIn, inspectoresSchemaRegistro } from '../../models/entities/Inspector';
-import { ErrorActualizacionBBDD } from '../../models/errores/ErrorActualizacionBBDD';
-import { ErrorConflictoBBDD } from '../../models/errores/ErrorConflictoBBDD';
-import { ErrorConsultaBBDD } from '../../models/errores/ErrorConsultaBBDD';
-import { ErrorEntidadNoEncontradaBBDD } from '../../models/errores/ErrorEntidadNoEncontradaBBDD';
-import { ResponseErrorValidacion } from '../../models/responses/ResponseErrorValidacion';
-import { login, registrar } from '../../services/logAndRegister.service';
-import { obtenerMensajesJoiValidacion } from '../../utils/mensajesDeValidacion';
+import { Inspector, inspectoresSchemaLogIn, inspectoresSchemaRegistro } from '../models/entities/Inspector';
+import { ErrorActualizacionBBDD } from '../models/errores/ErrorActualizacionBBDD';
+import { ErrorConflictoBBDD } from '../models/errores/ErrorConflictoBBDD';
+import { ErrorConsultaBBDD } from '../models/errores/ErrorConsultaBBDD';
+import { ErrorEntidadNoEncontradaBBDD } from '../models/errores/ErrorEntidadNoEncontradaBBDD';
+import { ResponseErrorValidacion } from '../models/responses/ResponseErrorValidacion';
+import { login, registrar } from '../services/logAndRegister.service';
+import { obtenerMensajesJoiValidacion } from '../utils/mensajesDeValidacion';
 
 const router = express.Router();
 
