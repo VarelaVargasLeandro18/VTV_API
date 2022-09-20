@@ -3,7 +3,7 @@ import { Column, Entity } from "typeorm";
 import { campoLargoMaximo, campoLargoMinimo, campoNoEsEmail, campoNoPuedeEstarVacio, campoRequerido } from "../../utils/mensajesDeValidacion";
 import { Persona, PersonaSchema } from "./Persona";
 
-export const inspectoresSchemaRegistro = Joi.object({
+export const inspectoresSchemaLogIn = Joi.object<Inspector>({
     email: Joi.string().email().required().messages({
         'any.required': campoRequerido("email"),
         'string.email': campoNoEsEmail("email"),
@@ -15,14 +15,9 @@ export const inspectoresSchemaRegistro = Joi.object({
         "string.max": campoLargoMaximo("contrasenia", 20),
     }),
     
-}).concat(PersonaSchema).options({ abortEarly: false });
-
-export const inspectoresSchemaLogIn = Joi.object({
-
-    email: Joi.string().email().required(),
-    contrasenia: Joi.string().required(),
-
 });
+
+export const inspectoresSchemaRegistro = inspectoresSchemaLogIn.concat(PersonaSchema).options({ abortEarly: false });
 
 @Entity({name: "Inspectores"})
 export class Inspector extends Persona {
