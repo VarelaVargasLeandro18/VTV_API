@@ -1,34 +1,27 @@
 import jwt from "jsonwebtoken";
-import { AppDataSource } from "../AppDataSource";
 import { Inspector } from "../models/entities/Inspector";
-import { ErrorActualizacionBBDD } from "../models/errores/ErrorActualizacionBBDD";
 import { ErrorConflictoBBDD } from "../models/errores/ErrorConflictoBBDD";
-import { ErrorConsultaBBDD } from "../models/errores/ErrorConsultaBBDD";
 import { ErrorEntidadNoEncontradaBBDD } from "../models/errores/ErrorEntidadNoEncontradaBBDD";
+import { InspectorRepository } from "../repositories/usuario.repository";
 
 const SECRET_TOKEN = process.env.SECRET_TOKEN || "TOPSECRETVITEH";
 const ALGORITHM_TOKEN : jwt.Algorithm = process.env.ALGORITHM_TOKEN as jwt.Algorithm || "HS256";
 
 /**
  * Esta función se encargará de registrar al inspector dado.
+ * @throws ErrorConflictoBBDD
+ * @throws ErrorActualizacionBBDD
  * @param inspector 
  */
 export const registrar = async (inspector : Inspector) => {
-    const inspectorRepository = AppDataSource.getRepository( Inspector );
-
-    const inspectorEncontrado = await inspectorRepository.findOneBy({
-        email: inspector.email
-    });
+    const inspectorRepository = new InspectorRepository();
+    const inspectorEncontrado = await inspectorRepository.getByEmail( inspector.email );
 
     if ( inspectorEncontrado ) {
         throw new ErrorConflictoBBDD( "Inspector", ["email"], [inspector.email] )
     }
 
-    try {
-        await inspectorRepository.save( inspector );
-    } catch ( error ) {
-        throw new ErrorActualizacionBBDD( error );
-    }
+    await inspectorRepository.saveInspector( inspector );
 
 }
 
@@ -40,17 +33,8 @@ export const registrar = async (inspector : Inspector) => {
  * @returns 
  */
 export const login = async (inspector : Inspector) => {
-    const inspectorRepository = AppDataSource.getRepository( Inspector );
-    let inspectorEncontrado;
-
-    try {
-        inspectorEncontrado = await inspectorRepository.findOneBy({
-            email: inspector.email,
-            contrasenia: inspector.contrasenia
-        });
-    } catch ( error ) {
-        throw new ErrorConsultaBBDD( error );
-    }
+    const inspectorRepository = new InspectorRepository();
+    const inspectorEncontrado = await inspectorRepository.getByEmailAndContrasenia( inspector.email, inspector.contrasenia );
 
     if ( !inspectorEncontrado ) {
         throw new ErrorEntidadNoEncontradaBBDD( "Inspector", ["email", "contrasenia"], [inspector.email, inspector.contrasenia] );
