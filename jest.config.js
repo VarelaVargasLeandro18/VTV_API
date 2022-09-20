@@ -2,10 +2,11 @@
 const config = {
     roots: ["./tests/"],
     transform: {
-        '\\.[jt]sx?$': 'esbuild-jest',
+        '\\.[jt]s?$': 'esbuild-jest',
     },
     collectCoverage: true,
-    collectCoverageFrom: ["./src/**"]
+    collectCoverageFrom: ["./src/**"],
+    moduleDirectories: ["node_modules"],
 }
 
 module.exports = config;
