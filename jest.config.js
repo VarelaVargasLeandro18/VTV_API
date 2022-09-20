@@ -7,6 +7,8 @@ const config = {
     collectCoverage: true,
     collectCoverageFrom: ["./src/**"],
     moduleDirectories: ["node_modules"],
+    coverageReporters: ["lcov"],
+    coverageDirectory: "./tests/coverage"
 }
 
 module.exports = config;

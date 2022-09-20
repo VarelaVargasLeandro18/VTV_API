@@ -11,7 +11,7 @@
     "build": "esbuild --bundle src/index.ts --outfile=www/main.js --platform=node",
     "start": "node www/main.js",
     
-    "test": "jest --config ./jest.config.js --coverage"
+    "test": "jest --config ./jest.config.js --coverage --verbose"
   },
   "repository": {
     "type": "git",
