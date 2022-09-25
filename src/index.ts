@@ -3,6 +3,7 @@ import express from "express";
 import login from "./controllers/login.controller";
 import { AppDataSource } from "./AppDataSource";
 import { requestIdMW } from "./middlewares/requestId";
+import { errorLogger, errorResponder } from "./middlewares/errorHandlers";
 
 //#region Conexión a Base de Datos:
 if ( !AppDataSource.isInitialized ) {
@@ -14,14 +15,22 @@ if ( !AppDataSource.isInitialized ) {
 
 const app = express();
 
-
-//#region Configuración de Middlewares
-    // # Body Parser JSON:
+//#region Configuración de rutas y Middlewares
+    // #region Middlewares Previos
     app.use( express.urlencoded( { extended: false } ) );
     app.use( express.json() );
-
-    // # Request ID Middleware:
     app.use( requestIdMW );
+    // #endregion
+    
+    // #region Rutas
+    app.use(login);
+    // #endregion
+
+    // #region Middlewares siguientes o de error
+    app.use( errorLogger );
+
+    app.use( errorResponder );
+    // #endregion
 //#endregion
 
 //#region Endpoints config
@@ -32,6 +41,4 @@ app.get( '/', (req, res) => {
 app.listen( 8080, () => {
     console.log('Conectado!');
 } );
-
-app.use(login);
 //#endregion
