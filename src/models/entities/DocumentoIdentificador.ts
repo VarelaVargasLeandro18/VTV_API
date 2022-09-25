@@ -3,7 +3,11 @@ import { Column, Entity, PrimaryColumn } from "typeorm";
 import { campoNoCorrespondeAValores, campoNoPuedeEstarVacio, campoRequerido } from "../../utils/mensajesDeValidacion";
 import { Persona } from "./Persona";
 
-// Según: https://www.argentina.gob.ar/interior/dine/capacitacion/autoridades/documentosvalidosparavotar
+/**
+ * Datos obtenidos de: https://www.argentina.gob.ar/interior/dine/capacitacion/autoridades/documentosvalidosparavotar]
+ * Probablemente lo más conveniente sea persistir esta información en otra tabla ya que podría llegar a sufrir cambios, pero
+ * por cuestiones de simpleza se opto por esta aproximación
+ */
 export enum TIPO_DOCUMENTO {
     LIBRETA_CIVICA = "Libreta Cívica",
     LIBRETA_ENROLAMIENTO = "Libreta Enrolamiento",
