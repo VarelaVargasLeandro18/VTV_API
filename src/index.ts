@@ -1,15 +1,14 @@
-import "reflect-metadata";
 import express from "express";
-import login from "./controllers/login.controller";
 import { AppDataSource } from "./AppDataSource";
-import { requestIdMW } from "./middlewares/requestId";
+import login from "./controllers/login.controller";
 import { errorLogger, errorResponder } from "./middlewares/errorHandlers";
+import { requestIdMW } from "./middlewares/requestId";
 
 //#region Conexión a Base de Datos:
 if ( !AppDataSource.isInitialized ) {
     AppDataSource.initialize()
         .then( value => console.log(value) )
-        .catch( error => console.error( error ) );
+        .catch( error => console.error( error ) )
 }
 //#endregion
 
