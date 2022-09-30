@@ -1,10 +1,21 @@
+import Joi from "joi";
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { dateJoiCustomValidation } from "../../utils/CustomJoiValidations";
+import { campoNoCumpleFormatoFecha, campoNoPuedeEstarVacio, campoRequerido } from "../../utils/mensajesDeValidacion";
 import { Auto } from "./Auto";
 import { Inspector } from "./Inspector";
 import { Medicion } from "./Medicion";
 import { Observacion } from "./Observacion";
 
-@Entity({name: "Inspeccion"})
+export const inspeccionSchema = Joi.object({
+    fecha: Joi.custom( dateJoiCustomValidation ).messages({
+        'noesfecha': campoNoCumpleFormatoFecha("fecha"),
+        'any.required': campoRequerido("fecha"),
+        'string.empty': campoNoPuedeEstarVacio("fecha"),
+    }),
+}).options( {abortEarly: false} );
+
+@Entity({name: "inspeccion"})
 export class Inspeccion {
     
     @PrimaryGeneratedColumn("increment", {type: "int"})

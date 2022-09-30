@@ -1,7 +1,7 @@
 import Joi from "joi";
 import { Column, CreateDateColumn, DeleteDateColumn, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { dateJoiCustomValidation } from "../../utils/CustomJoiValidations";
-import { campoNoPuedeEstarVacio, campoRequerido } from "../../utils/mensajesDeValidacion";
+import { campoNoCumpleFormatoFecha, campoNoPuedeEstarVacio, campoRequerido } from "../../utils/mensajesDeValidacion";
 import { DocumentoIdentificador, DocumentoIdentificadorSchema } from "./DocumentoIdentificador";
 
 export const PersonaSchema = Joi.object({
@@ -11,7 +11,7 @@ export const PersonaSchema = Joi.object({
     }),
     nombre: Joi.string().required().messages({
         'any.required': campoRequerido("nombre"),
-        'string.empty': campoNoPuedeEstarVacio("apellido"),
+        'string.empty': campoNoPuedeEstarVacio("nombre"),
     }),
     apellido: Joi.string().required().messages({
         'any.required': campoRequerido("apellido"),
@@ -19,7 +19,7 @@ export const PersonaSchema = Joi.object({
     }),
     fechaNacimiento: Joi.string().required().custom( dateJoiCustomValidation ).messages({
         'any.required': campoRequerido("fechaNacimiento"),
-        'noesfecha': "No cumple con el formato de fecha."
+        'noesfecha': campoNoCumpleFormatoFecha("fechaNacimiento"),
     }),
     
 }).options({ abortEarly: false });

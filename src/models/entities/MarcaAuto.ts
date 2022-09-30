@@ -1,6 +1,15 @@
+import Joi from "joi";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { campoNoPuedeEstarVacio, campoRequerido } from "../../utils/mensajesDeValidacion";
 
-@Entity({name: "Marcas_Autos"})
+export const marcaAutoSchema = Joi.object<MarcaAuto>({
+    marca: Joi.string().required().messages({
+        'any.required': campoRequerido("marca"),
+        'string.empty': campoNoPuedeEstarVacio('marca'),
+    }),
+}).options( {abortEarly: false} );
+
+@Entity({name: "marcas_autos"})
 export class MarcaAuto {
 
     @PrimaryGeneratedColumn("uuid")

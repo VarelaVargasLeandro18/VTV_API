@@ -14,10 +14,9 @@ export const inspectoresSchemaLogIn = Joi.object<Inspector>({
         'string.min': campoLargoMinimo("contrasenia", 6),
         "string.max": campoLargoMaximo("contrasenia", 20),
     }),
-    
-});
+}).options( {abortEarly: false} );
 
-export const inspectoresSchemaRegistro = inspectoresSchemaLogIn.concat(PersonaSchema).options({ abortEarly: false });
+export const inspectoresSchemaRegistro = inspectoresSchemaLogIn.concat(PersonaSchema).options( {abortEarly: false} );
 
 @Entity({name: "Inspectores"})
 export class Inspector extends Persona {
