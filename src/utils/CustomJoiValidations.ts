@@ -8,5 +8,4 @@ export const dateJoiCustomValidation = (value : any, helper : Joi.CustomHelpers<
     }
     
     return value;
-
 }
